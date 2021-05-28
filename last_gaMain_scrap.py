@@ -7,8 +7,12 @@ import requests
 from bs4 import BeautifulSoup
 import telegram
 
-bot = telegram.Bot(token='1824872114:AAF7Z-s5PFxSdseaACbfVdOouNlDemWy_1s') 
-channel_id = -1001259351219 # 채널 ID
+# 텔레그램 관련 코드 
+myToken = '1824872114:AAF7Z-s5PFxSdseaACbfVdOouNlDemWy_1s' #  Token_key
+# channel_id = -1001259351219 # Channel_id
+chat_id = 1854365300    # Chat_id
+
+bot = telegram.Bot(token=myToken) 
 
 url = "https://www.gachon.ac.kr/community/opencampus/03.jsp?boardType_seq=358"
 res = requests.get(url)
@@ -41,11 +45,6 @@ else :
         if len(columns) <= 1 :
             continue
 
-        # 새로운 글 이미지 태그가 없으면 뛰어 넘기
-        new_post = columns[1].find('img')
-        if new_post == None :
-            continue
-
         link = 'https://www.gachon.ac.kr/community/opencampus/'
         post_num = columns[0].get_text().strip()
         title = columns[1].get_text().strip()
@@ -55,12 +54,17 @@ else :
         if(post_num == '') :
             continue
         
+        # 새로운 글 이미지 태그가 없으면 뛰어 넘기
+        new_post = columns[1].find('img')
+        if new_post == None :
+            continue
+
         text = '<가천대 게시글 업데이트>' + '\n'
         text += post_num + '\n'
         text += title + '\n'
         text += link
 
-        bot.sendMessage(-1001259351219, text)
+        bot.sendMessage(chat_id, text)
 
         # 터미널 로그
         print(text)
