@@ -1,1 +1,1 @@
-worker: python teleBot_gainfo_scrap.py
+worker: python last_gaMain_scrap.py
